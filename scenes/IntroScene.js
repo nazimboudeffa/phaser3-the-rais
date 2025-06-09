@@ -7,11 +7,11 @@ export default class IntroScene extends Phaser.Scene {
         this.add.image(400, 300, 'the-casbah');       
 
         const story = [
-            "Incarnez un redoutable corsaire au service de la Régence d'Alger.",
-            "Construisez votre légende en arraisonnant les navires pirates.",
-            "Négociez avec les Deys et les puissances étrangères",
-            "Bâtissez votre repaire pour devenir le maître de la Méditerranée",
-            "Bienvenue dans la Casbah..."
+            "Play as a formidable corsair in the service of the Regency of Algiers.",
+            "Build your legend by boarding pirate ships.",
+            "Negotiate with the Deys and foreign powers.",
+            "Build your hideout to become the master of the Mediterranean.",
+            "Welcome to the Casbah..."
         ];
 
         this.textIndex = 0;
@@ -34,7 +34,7 @@ export default class IntroScene extends Phaser.Scene {
 
         // Start button appears after all lines
         this.time.delayedCall(story.length * 2000, () => {
-            const btn = this.add.text(300, 500, 'Entrer dans la Casbah', {
+            const btn = this.add.text(300, 500, 'Enter the Casbah', {
                 font: '18px Arial',
                 fill: '#0f0',
                 backgroundColor: '#222',
