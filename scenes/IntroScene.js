@@ -15,7 +15,7 @@ export default class IntroScene extends Phaser.Scene {
         ];
 
         this.textIndex = 0;
-        this.textDisplay = this.add.text(100, 200, 'Introduction ...', {
+        this.textDisplay = this.add.text(100, 200, 'Introduction...', {
             font: '24px Courier',
             fill: '#0f0',
             backgroundColor: '#070704',
@@ -43,6 +43,7 @@ export default class IntroScene extends Phaser.Scene {
 
             btn.on('pointerdown', () => {
                 console.log('Entering the Casbah...');
+                this.scene.start('toBeContinued'); // Assuming 'toBeContinued' is the next scene
             });
         });
     }
