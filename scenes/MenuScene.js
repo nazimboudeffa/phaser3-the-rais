@@ -13,7 +13,7 @@ export default class MenuScene extends Phaser.Scene
         this.tweens.add({
             targets: startButton,
             alpha: 0,
-            ease: 'Linear1',
+            ease: 'Linear',
             duration: 500,
             repeat: -1,
             yoyo: true

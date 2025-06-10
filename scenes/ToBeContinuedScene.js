@@ -20,7 +20,7 @@ export default class ToBeContinuedScene extends Phaser.Scene {
 
         btn.on('pointerdown', () => {
             console.log('Returning to Main Menu...');
-            this.scene.start('menu'); // Assuming 'intro' is the key for the main menu scene
+            this.scene.start('menu'); // Assuming 'menu' is the key for the main menu scene
         });
     }
 }

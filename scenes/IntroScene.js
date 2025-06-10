@@ -7,7 +7,7 @@ export default class IntroScene extends Phaser.Scene {
         this.add.image(400, 300, 'the-casbah');       
 
         const story = [
-            "Born in the heart of Algiers, your destiny is bigger then its narrow streets.",
+            "Born in the heart of Algiers, your destiny is bigger than its narrow streets.",
             "Forgotten maps and amazing cruises are calling from the deep.",
             "Forge your legend in the heart of the Empire.",
             "Welcome to the Casbah..."
