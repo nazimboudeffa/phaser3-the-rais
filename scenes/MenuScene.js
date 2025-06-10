@@ -2,12 +2,12 @@ export default class MenuScene extends Phaser.Scene
 {
     constructor()
     {
-        super({ key: 'menu', active: false });
+        super({ key: 'menu' });
     }
 
     create ()
     {
-        this.add.image(400, 300, 'the-rais');
+        this.add.image(400, 300, 'menu-scene');
         let startButton = this.add.image(400, 450, 'start');
         startButton.setInteractive({ cursor: 'pointer' });
         this.tweens.add({

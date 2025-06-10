@@ -1,6 +1,7 @@
 import LoadScene from './scenes/LoadScene.js';
 import MenuScene from './scenes/MenuScene.js';
 import IntroScene from './scenes/IntroScene.js';
+import PlaceScene from './scenes/PlaceScene.js';
 import ToBeContinuedScene from './scenes/ToBeContinuedScene.js';
 
 const config = {
@@ -10,7 +11,7 @@ const config = {
     width: 800,
     height: 600,
     scene: [
-        LoadScene, MenuScene, IntroScene, ToBeContinuedScene
+        LoadScene, MenuScene, IntroScene, PlaceScene, ToBeContinuedScene
     ],
     scale : {
         mode: Phaser.Scale.FIT,

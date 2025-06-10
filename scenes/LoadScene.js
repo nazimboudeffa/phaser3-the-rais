@@ -2,7 +2,7 @@ export default class LoadScene extends Phaser.Scene
 {
     constructor()
     {
-        super({ key: 'load', active: false });
+        super({ key: 'load'});
     }
 
     preload ()
@@ -44,9 +44,10 @@ export default class LoadScene extends Phaser.Scene
         });
 
         // Chargement des ressources
-        this.load.image('the-rais', 'assets/the-rais-800x600.png');
+        this.load.image('menu-scene', 'assets/menu-800x600.png');
         this.load.image('start', 'assets/start.png');
-        this.load.image('the-casbah', 'assets/the-casbah-800x600.png');
+        this.load.image('intro-scene', 'assets/intro-800x600.png');
+        this.load.image('place-scene', 'assets/place-800x600.png');
     }
 
     create ()

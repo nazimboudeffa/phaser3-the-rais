@@ -4,7 +4,7 @@ export default class IntroScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'the-casbah');       
+        this.add.image(400, 300, 'intro-scene');       
 
         const story = [
             "Born in the heart of Algiers, your destiny is bigger than its narrow streets.",
@@ -42,7 +42,7 @@ export default class IntroScene extends Phaser.Scene {
 
             btn.on('pointerdown', () => {
                 console.log('Entering the Casbah...');
-                this.scene.start('toBeContinued'); // Assuming 'toBeContinued' is the next scene
+                this.scene.start('place');
             });
         });
     }
