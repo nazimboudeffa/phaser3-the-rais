@@ -16,7 +16,7 @@ export default class DeskScene extends Phaser.Scene {
         
         const missions = [
             {
-                title: "Escort a merchant ship to Holland",
+                title: "Escort a merchant ship to Netherlands",
                 danger: "Moderate",
                 reward: 150,
                 duration: "2 days"
