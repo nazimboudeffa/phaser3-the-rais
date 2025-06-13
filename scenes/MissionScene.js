@@ -31,7 +31,7 @@ export default class MissionScene extends Phaser.Scene {
         this.eventTriggers = [0.25, 0.5, 0.75];
         this.triggered = [];
 
-        this.time.addEvent({
+        this.progressTimer = this.time.addEvent({
             delay: 100,
             loop: true,
             callback: () => {
@@ -94,6 +94,11 @@ export default class MissionScene extends Phaser.Scene {
     }
 
     missionSuccess() {
+        if (this.missionAlreadyCompleted) return; // pour éviter même double appel accidentel
+        this.missionAlreadyCompleted = true;
+
+        this.progressTimer.remove(false); // 🔒 stoppe le timer
+
         this.add.text(200, 150, 'Mission Accomplished!', {
             font: '24px Arial',
             fill: '#00ff00'
@@ -101,7 +106,11 @@ export default class MissionScene extends Phaser.Scene {
 
         // Ajouter la récompense
         const currentGold = this.registry.get('gold');
-        this.registry.set('gold', currentGold + this.mission.reward);
+        this.registry.set('gold', currentGold + parseInt(this.mission.reward));
+
+        console.log("Current gold:", currentGold);
+        console.log("Reward:", this.mission.reward);
+        console.log("Gold after:", currentGold + parseInt(this.mission.reward));
 
         // Marquer la mission comme accomplie
         const missions = this.registry.get('missions');

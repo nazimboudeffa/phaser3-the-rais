@@ -25,7 +25,7 @@ export default class DeskScene extends Phaser.Scene {
         this.add.image(400, 300, 'scene-desk'); 
 
         // Affiche le titre et la liste des missions disponibles
-        this.add.text(20, 20, 'Available Missions:', { font: '24px Arial', fill: '#ffffff' });
+        this.add.text(20, 20, 'Available Cruises:', { font: '24px Arial', fill: '#ffffff' });
 
         const allMissions = this.registry.get('missions');
         const availableMissions = allMissions.filter(m => !m.completed);
