@@ -1,4 +1,5 @@
 import Graph from '../lib/Graph.js';
+import Missions from '../lib/Missions.js';
 export default class PlaceScene extends Phaser.Scene {
   constructor() {
     super({ key: 'place' });
@@ -10,6 +11,16 @@ export default class PlaceScene extends Phaser.Scene {
   }
 
   create() {
+    // Initialiser les valeurs une seule fois
+    if (!this.registry.has('gold')) {
+        this.registry.set('gold', 0);
+    }
+
+    if (!this.registry.has('missions')) {
+        this.registry.set('missions', Missions);
+    }
+
+    // Crée un graphe pour gérer les lieux
     this.graph = new Graph();
     // Ajout des lieux dans le graphe
     this.graph.addLocation('Place');
@@ -38,6 +49,17 @@ export default class PlaceScene extends Phaser.Scene {
 
     // Affichage de l'image de fond
     this.add.image(400, 300, locationImages[this.currentLocation]);
+
+
+    const gold = this.registry.get('gold');
+    if (gold === undefined) {
+      this.registry.set('gold', 0);
+    }
+    this.add.image(750, 50, 'coin').setOrigin(0.5).setScale(0.5); // Affiche l'icône de la pièce d'or
+    this.add.text(750, 100, `${this.registry.get('gold')}`, {
+        font: '20px Arial',
+        fill: '#ffffff'
+    }).setOrigin(0.5);
 
     // Affiche les boutons de navigation
     const connections = this.graph.getConnections(this.currentLocation);

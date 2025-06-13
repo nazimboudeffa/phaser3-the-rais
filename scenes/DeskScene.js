@@ -4,7 +4,20 @@ export default class DeskScene extends Phaser.Scene {
     }
 
     create() {
+        // Initialise les données de la scène
         this.showMissionSelection();
+
+        // Bouton retour
+        const backBtn = this.add.text(600, 500, '← Back', {
+            font: '20px Arial',
+            fill: '#fff',
+            backgroundColor: '#444',
+            padding: { x: 10, y: 5 }
+        }).setInteractive({ cursor: 'pointer' }).setDepth(1);
+
+        backBtn.on('pointerdown', () => {
+            this.scene.start('place');
+        });
     }
 
     showMissionSelection() {
@@ -13,32 +26,14 @@ export default class DeskScene extends Phaser.Scene {
 
         // Affiche le titre et la liste des missions disponibles
         this.add.text(20, 20, 'Available Missions:', { font: '24px Arial', fill: '#ffffff' });
-        
-        const missions = [
-            {
-                title: "Escort a merchant ship to Netherlands",
-                danger: "Moderate",
-                reward: 150,
-                duration: "2 days"
-            },
-            {
-                title: "Protect a convoy bound for Tunis",
-                danger: "High",
-                reward: 300,
-                duration: "4 days"
-            },
-            {
-                title: "Escort a local trader to Ajaccio",
-                danger: "Low",
-                reward: 100,
-                duration: "1 day"
-            }
-        ];
+
+        const allMissions = this.registry.get('missions');
+        const availableMissions = allMissions.filter(m => !m.completed);
 
         const startY = 100;
         const spacing = 120;
 
-        missions.forEach((mission, index) => {
+        availableMissions.forEach((mission, index) => {
             const y = startY + index * spacing;
 
             this.add.text(100, y, mission.title, { font: '20px Arial', fill: '#ffffff' });
