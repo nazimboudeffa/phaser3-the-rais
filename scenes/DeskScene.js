@@ -3,7 +3,27 @@ export default class DeskScene extends Phaser.Scene {
         super({ key: 'desk' });
     }
 
+    init(data) {
+        this.completedMission = data?.completedMission || null;
+    }
+
     create() {
+        // Appliquer la récompense si on revient d’une mission
+        if (this.completedMission) {
+            const gold = this.registry.get('gold') || 0;
+            const reward = parseInt(this.completedMission.reward);
+            this.registry.set('gold', gold + reward);
+
+            const missions = this.registry.get('missions');
+            const updated = missions.map(m => {
+                if (m.id === this.completedMission.id) {
+                    return { ...m, completed: true };
+                }
+                return m;
+            });
+            this.registry.set('missions', updated);
+        }
+
         // Initialise les données de la scène
         this.showMissionSelection();
 

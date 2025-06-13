@@ -19,13 +19,17 @@ export default class MissionScene extends Phaser.Scene {
 
     createProgressBar() {
         const days = parseInt(this.mission.duration);
-        const totalTime = days * 3000;
+        if (isNaN(days)) {
+            console.error("Invalid mission duration:", this.mission.duration);
+            this.totalTime = 3000; // fallback de sécurité
+        } else {
+            this.totalTime = days * 3000;
+        }
 
         const bg = this.add.rectangle(100, 60, 400, 20, 0x444444).setOrigin(0, 0.5);
         this.progressBar = this.add.rectangle(100, 60, 0, 20, 0x00aa00).setOrigin(0, 0.5);
 
         this.elapsed = 0;
-        this.totalTime = totalTime;
 
         // Marqueurs d’événement : 25%, 50%, 75%
         this.eventTriggers = [0.25, 0.5, 0.75];
@@ -37,21 +41,29 @@ export default class MissionScene extends Phaser.Scene {
             callback: () => {
                 this.elapsed += 100;
                 const percent = Phaser.Math.Clamp(this.elapsed / this.totalTime, 0, 1);
+                console.log(`Progress: ${percent * 100}%`);
+
                 this.progressBar.width = 400 * percent;
 
-                // Check si on a atteint un point de rencontre
                 this.eventTriggers.forEach(trigger => {
                     if (percent >= trigger && !this.triggered.includes(trigger)) {
                         this.triggered.push(trigger);
-                        this.triggerEncounter(trigger);
+                        console.log("Triggering event at:", trigger);
+                        try {
+                            this.triggerEncounter(trigger);
+                        } catch (e) {
+                            console.error("Encounter error:", e);
+                        }
                     }
                 });
 
                 if (percent >= 1) {
+                    console.log("Calling missionSuccess()");
                     this.missionSuccess();
                 }
             }
         });
+
     }
 
     triggerEncounter(trigger) {
@@ -94,11 +106,6 @@ export default class MissionScene extends Phaser.Scene {
     }
 
     missionSuccess() {
-        if (this.missionAlreadyCompleted) return; // pour éviter même double appel accidentel
-        this.missionAlreadyCompleted = true;
-
-        this.progressTimer.remove(false); // 🔒 stoppe le timer
-
         this.add.text(400, 300, 'Mission Accomplished!', {
             font: '24px Arial',
             fill: '#00ff00',
@@ -106,27 +113,11 @@ export default class MissionScene extends Phaser.Scene {
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
 
-        // Ajouter la récompense
-        const currentGold = this.registry.get('gold');
-        this.registry.set('gold', currentGold + parseInt(this.mission.reward));
-
-        console.log("Current gold:", currentGold);
-        console.log("Reward:", this.mission.reward);
-        console.log("Gold after:", currentGold + parseInt(this.mission.reward));
-
-        // Marquer la mission comme accomplie
-        const missions = this.registry.get('missions');
-        const updated = missions.map(m => {
-            if (m.id === this.mission.id) {
-                return { ...m, completed: true };
-            }
-            return m;
-        });
-        this.registry.set('missions', updated);
-
         // Retour
         this.time.delayedCall(2000, () => {
-            this.scene.start('desk');
+            this.scene.start('desk', {
+                completedMission: this.mission
+            });
         });
     }
 
