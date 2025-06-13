@@ -7,7 +7,7 @@ export default class MenuScene extends Phaser.Scene
 
     create ()
     {
-        this.add.image(400, 300, 'menu-scene');
+        this.add.image(400, 300, 'scene-menu');
         let startButton = this.add.image(400, 450, 'start');
         startButton.setInteractive({ cursor: 'pointer' });
         this.tweens.add({

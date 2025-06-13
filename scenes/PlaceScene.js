@@ -1,3 +1,4 @@
+import Graph from '../lib/Graph.js';
 export default class PlaceScene extends Phaser.Scene {
   constructor() {
     super({ key: 'place' });
@@ -9,33 +10,64 @@ export default class PlaceScene extends Phaser.Scene {
   }
 
   create() {
-    // Affichage de l'image de fond
-    this.add.image(0, 0, 'place-scene').setOrigin(0).setDisplaySize(this.scale.width, this.scale.height);
+    this.graph = new Graph();
+    // Ajout des lieux dans le graphe
+    this.graph.addLocation('Place');
+    this.graph.addLocation('Ship');
+    this.graph.addLocation('Home');
 
-    // Titre ou texte (optionnel)
-    this.add.text(this.scale.width / 2, 50, 'Welcome to the Casbah', {
-      fontSize: '32px',
-      color: '#ffffff',
-      fontFamily: 'Georgia'
-    }).setOrigin(0.5);
+    // Connexion des lieux
+    this.graph.connectLocations('Place', 'Ship');
+    this.graph.connectLocations('Place', 'Home');
 
-    // Menu avec trois boutons
-    const menuItems = [
-      { label: 'Go to the Ship', scene: 'ShipScene' },
-      { label: 'Go Home', scene: 'HomeScene' },
-    ];
+    // Associe les lieux aux clés d'image
+    const locationImages = {
+        'Place': 'scene-place',
+        'Ship': 'scene-ship',
+        'Home': 'scene-home'
+    };
 
-    menuItems.forEach((item, index) => {
-      const button = this.add.text(this.scale.width / 2, 150 + index * 60, item.label, {
-        fontSize: '24px',
-        color: '#ffffaa',
-        backgroundColor: '#00000080',
-        padding: { x: 10, y: 5 }
-      }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    // Récupère le nom du lieu actuel
+    this.currentLocation = this.registry.get('currentLocation');
 
-      button.on('pointerover', () => button.setStyle({ backgroundColor: '#222222' }));
-      button.on('pointerout', () => button.setStyle({ backgroundColor: '#00000080' }));
-      button.on('pointerdown', () => this.scene.start('toBeContinued'));
+    // Affiche le nom du lieu
+    this.add.text(20, 20, `Location : ${this.currentLocation}`, {
+        font: '20px Arial',
+        fill: '#ffffff'
     });
+
+    // Affichage de l'image de fond
+    this.add.image(400, 300, locationImages[this.currentLocation]);
+
+    // Affiche les boutons de navigation
+    const connections = this.graph.getConnections(this.currentLocation);
+    connections.forEach((loc, idx) => {
+        const btn = this.add.text(50, 100 + idx * 40, `Go to ${loc}`, {
+            font: '18px Arial',
+            fill: '#0f0',
+            backgroundColor: '#222',
+            padding: { x: 5, y: 3 }
+        }).setInteractive({ cursor: 'pointer' });
+
+        btn.on('pointerdown', () => {
+            console.log(`Navigating to ${loc}...`);
+            // Met à jour le lieu actuel dans le registre
+            this.registry.set('currentLocation', loc);
+            this.scene.restart();
+        });
+    });
+
+    if (this.currentLocation === 'Ship') {
+        const shipBtn = this.add.text(600, 500, 'Enter Ship', {
+            font: '18px Arial',
+            fill: '#fff',
+            backgroundColor: '#007700',
+            padding: { x: 10, y: 5 }
+        }).setInteractive({ cursor: 'pointer' });
+
+        shipBtn.on('pointerdown', () => {
+            this.scene.start('desk');
+        });
+    }
   }
 }

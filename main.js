@@ -3,6 +3,8 @@ import MenuScene from './scenes/MenuScene.js';
 import IntroScene from './scenes/IntroScene.js';
 import PlaceScene from './scenes/PlaceScene.js';
 import ToBeContinuedScene from './scenes/ToBeContinuedScene.js';
+import DeskScene from './scenes/DeskScene.js';
+import MissionScene from './scenes/MissionScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -11,7 +13,7 @@ const config = {
     width: 800,
     height: 600,
     scene: [
-        LoadScene, MenuScene, IntroScene, PlaceScene, ToBeContinuedScene
+        LoadScene, MenuScene, IntroScene, PlaceScene, DeskScene, MissionScene, ToBeContinuedScene
     ],
     scale : {
         mode: Phaser.Scale.FIT,
