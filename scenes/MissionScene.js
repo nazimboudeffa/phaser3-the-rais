@@ -99,10 +99,12 @@ export default class MissionScene extends Phaser.Scene {
 
         this.progressTimer.remove(false); // 🔒 stoppe le timer
 
-        this.add.text(200, 150, 'Mission Accomplished!', {
+        this.add.text(400, 300, 'Mission Accomplished!', {
             font: '24px Arial',
-            fill: '#00ff00'
-        });
+            fill: '#00ff00',
+            backgroundColor: '#000000',
+            padding: { x: 10, y: 5 }
+        }).setOrigin(0.5);
 
         // Ajouter la récompense
         const currentGold = this.registry.get('gold');
