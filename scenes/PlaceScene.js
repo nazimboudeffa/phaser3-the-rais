@@ -13,7 +13,11 @@ export default class PlaceScene extends Phaser.Scene {
   create() {
     // Initialiser les valeurs une seule fois
     if (!this.registry.has('gold')) {
-        this.registry.set('gold', 0);
+        this.registry.set('gold', 50);
+    }
+
+    if (!this.registry.has('inventory')) {
+        this.registry.set('inventory', ['Map']);
     }
 
     if (!this.registry.has('missions')) {
@@ -89,6 +93,19 @@ export default class PlaceScene extends Phaser.Scene {
 
         shipBtn.on('pointerdown', () => {
             this.scene.start('desk');
+        });
+    }
+
+    if (this.currentLocation === 'Home') {
+        const homeBtn = this.add.text(600, 500, 'Enter Home', {
+            font: '18px Arial',
+            fill: '#fff',
+            backgroundColor: '#007700',
+            padding: { x: 10, y: 5 }
+        }).setInteractive({ cursor: 'pointer' });
+
+        homeBtn.on('pointerdown', () => {
+            this.scene.start('home-interior');
         });
     }
   }
