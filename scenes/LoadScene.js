@@ -55,6 +55,7 @@ export default class LoadScene extends Phaser.Scene
         this.load.image('scene-home', 'assets/home-800x600.png');
         this.load.image('scene-home-interior', 'assets/home-interior-800x600.png');
         this.load.image('inventory-map', 'assets/map-1536x1024.png'); // Assurez-vous que le chemin est correct
+        this.load.image('scene-battle', 'assets/battle-800x600.png');
     }
 
     create ()

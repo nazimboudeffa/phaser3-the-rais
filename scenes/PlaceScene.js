@@ -92,7 +92,7 @@ export default class PlaceScene extends Phaser.Scene {
         }).setInteractive({ cursor: 'pointer' });
 
         shipBtn.on('pointerdown', () => {
-            this.scene.start('desk');
+            this.scene.start('desk', {});
         });
     }
 

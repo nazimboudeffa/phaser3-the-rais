@@ -5,9 +5,14 @@ export default class MissionScene extends Phaser.Scene {
 
     init(data) {
         this.mission = data.mission;
+        this.missionSuccess = true; // Par défaut, on suppose que la mission réussit
     }
 
     create() {
+         if (typeof this.loot !== 'number') {
+            this.loot = 0;
+        }
+
         this.add.image(400, 300, 'scene-mission');
 
         this.add.text(20, 20, `Mission: ${this.mission.title}`, { font: '20px Arial', fill: '#ffffff' });
@@ -15,6 +20,13 @@ export default class MissionScene extends Phaser.Scene {
         this.createProgressBar();
 
         // Ajoute ici ton navire, ennemi, etc.
+        this.events.on('battle-resolved', (data) => {
+
+            if (typeof data.battleResult !== 'undefined') {
+                this.missionSuccess = data.battleResult;
+            }
+        });
+
     }
 
     createProgressBar() {
@@ -59,7 +71,7 @@ export default class MissionScene extends Phaser.Scene {
 
                 if (percent >= 1) {
                     console.log("Calling missionSuccess()");
-                    this.missionSuccess();
+                    this.showMissionResult();
                 }
             }
         });
@@ -105,10 +117,13 @@ export default class MissionScene extends Phaser.Scene {
         });
     }
 
-    missionSuccess() {
-        this.add.text(400, 300, 'Mission Accomplished!', {
+    showMissionResult() {
+        const message = this.missionSuccess ? 'Mission Success!' : 'Mission Failed...';
+        const color = this.missionSuccess ? '#00ff00' : '#ff5555';
+
+        this.add.text(400, 300, message, {
             font: '24px Arial',
-            fill: '#00ff00',
+            fill: color,
             backgroundColor: '#000000',
             padding: { x: 10, y: 5 }
         }).setOrigin(0.5);
@@ -116,15 +131,18 @@ export default class MissionScene extends Phaser.Scene {
         // Retour
         this.time.delayedCall(2000, () => {
             this.scene.start('desk', {
-                completedMission: this.mission
+                completedMission: this.mission,
+                missionSuccess: this.missionSuccess,
             });
         });
     }
 
     spawnEnemy() {
-        // Logique pour générer un ennemi
         console.log("Enemy ship spawned!");
-        // Tu peux ajouter une scène de combat ou un mini-jeu ici
+        this.scene.pause();
+        this.scene.launch('battle', {
+            returnScene: 'mission'
+        });
     }
 
 }

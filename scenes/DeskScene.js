@@ -4,15 +4,24 @@ export default class DeskScene extends Phaser.Scene {
     }
 
     init(data) {
-        this.completedMission = data?.completedMission || null;
+        this.completedMission = null; // ✅ Always reset first
+        this.missionSuccess = false; // ✅ Always reset first
+
+        if (data) {
+            this.completedMission = data.completedMission || null;
+            this.missionSuccess = data.missionSuccess || false;
+        }
+
+        console.log('Completed mission:', this.completedMission);
+        console.log('Loot:', this.loot);
     }
 
     create() {
         // Appliquer la récompense si on revient d’une mission
-        if (this.completedMission) {
+        if (this.completedMission && this.missionSuccess) {
             const gold = this.registry.get('gold') || 0;
             const reward = parseInt(this.completedMission.reward);
-            this.registry.set('gold', gold + reward);
+            this.registry.set('gold', gold + reward); // Ajoute la récompense à l’or
 
             const missions = this.registry.get('missions');
             const updated = missions.map(m => {
