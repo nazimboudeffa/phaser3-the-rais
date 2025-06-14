@@ -16,13 +16,14 @@ export default class BattleScene extends Phaser.Scene {
 
         this.createHPBars();
 
-        this.input.keyboard.on('keydown-SPACE', () => {
-            this.attackEnemy();
-        });
+        const attackBtn = this.add.text(320, 400, 'Attack', {
+            font: '24px Arial',
+            fill: '#fff',
+            backgroundColor: '#007700',
+            padding: { x: 10, y: 5 }
+        }).setInteractive({ cursor: 'pointer' });
 
-        this.add.text(300, 50, 'Press SPACE to attack!', {
-            font: '18px Arial', fill: '#ffffff'
-        });
+        attackBtn.on('pointerdown', () => this.attackEnemy());
     }
 
     createHPBars() {
